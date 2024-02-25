@@ -18,29 +18,34 @@ void setup() {
   interrupts();
 }
 
-bool debounce(int pin) {
-  // Initial state is considered as high due to internal pull-up
-  bool state = true;
-  bool previousState = true;
+// checkButtons is implemented with debouncing
+void checkButtons(bool &buttonState2, bool &buttonState3) {
+  static unsigned long lastDebounceTime2 = 0;
+  static unsigned long lastDebounceTime3 = 0;
+  static bool lastButtonState2 = true;
+  static bool lastButtonState3 = true;
 
-  unsigned long currentTime = millis();
-  unsigned long startTime = currentTime;
-  
-  // Check the state of the button at least two times
-  while (currentTime - startTime < DEBOUNCE_TIME) {
-    state = PIND & (1 << pin);
+  bool currentButtonState2 = PIND & (1 << PIND2);
+  bool currentButtonState3 = PIND & (1 << PIND3);
 
-    if (state != previousState) {
-      // Reset the timer because the state changed
-      startTime = currentTime;
-    }
-
-    previousState = state;
-    currentTime = millis();
+  if (currentButtonState2 != lastButtonState2) {
+    lastDebounceTime2 = millis();
   }
 
-  // Return the stabilized state, inverted because the setup is active low
-  return !state;
+  if (currentButtonState3 != lastButtonState3) {
+    lastDebounceTime3 = millis();
+  }
+
+  if ((millis() - lastDebounceTime2) > DEBOUNCE_TIME) {
+    buttonState2 = !currentButtonState2;
+  }
+
+  if ((millis() - lastDebounceTime3) > DEBOUNCE_TIME) {
+    buttonState3 = !currentButtonState3;
+  }
+
+  lastButtonState2 = currentButtonState2;
+  lastButtonState3 = currentButtonState3;
 }
 
 void loop() {
@@ -52,19 +57,18 @@ void loop() {
   Serial.println("Two!");
   delay(1000);
   Serial.println("One!");
+  bool buttonState2 = false, buttonState3 = false;
 
-  bool buttonState2 = false;
-  bool buttonState3 = false;
-  // Here you can use buttonState2 and buttonState3 as needed
-  // For demonstration, we'll just do a simple print (not recommended for actual loop use due to speed)
+  // Your existing logic to start the game
+
   unsigned long start_time = millis();
   while (!(buttonState2 || buttonState3)) {
+    checkButtons(buttonState2, buttonState3); // Non-blocking check of both buttons
+
     if (millis() - start_time > 5000) {
       Serial.println("What are you waiting for??");
       break;
     }
-    buttonState2 = debounce(PIND2);
-    buttonState3 = debounce(PIND3);
   }
   
   if (buttonState2) {
