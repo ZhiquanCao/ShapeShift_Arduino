@@ -5,8 +5,8 @@ volatile bool buttonPressed = false;
 
 void setup() {
   // Initialize Serial
-  Serial.begin(115200);
-
+  Serial.begin(9600);
+  Serial_Mega.begin(115200);
   // Disable interrupts to ensure atomic access for register manipulation
   cli();
 
@@ -35,6 +35,7 @@ void loop() {
     Game* game = new Game();
     game->start_game();
     buttonPressed = false;
+    delete game;
   }else{
     Serial.println("testing");
   }

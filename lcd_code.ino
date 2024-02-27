@@ -19,8 +19,8 @@ const int shapeSideLength = 120; // Side length for the rectangle
 int iterationCounter = 0;
 
 void setup() {
-  Serial.begin(9600);
-
+  Serial_pc.begin(9600);
+  Serial.begin(115200);
   tft.reset();
   tft.begin(0x9486);
   tft.setRotation(3);
@@ -38,20 +38,13 @@ void loop() {
   } else {
     // Display the next 4 iterations after the user inputs 'x'
     if (Serial.available() > 0) {
-      char input = Serial.read();
-      if (input == 'x' || input == 'X') {
-        if (iterationCounter < 5) {
-          // Randomly choose the side: 0 for left, 1 for right
-          //int side = random(2);
-          drawRandomShape(side);
-          iterationCounter++;
-        }
-      }
+      string input = Serial.readStringUntil("\n");
+      Serial_pc.println(input);
     }
   }
 }
 
-void drawRandomShape(int side) {
+void drawRandomShape(bool side, bool shape) {
   int16_t centerX = tft.width() / 2;
   int16_t centerY = tft.height() / 2;
 
@@ -61,22 +54,18 @@ void drawRandomShape(int side) {
   if (side == 0) { // Left side
     int shapeX = (centerX - shapeSideLength) / 2;
     int shapeY = (tft.height() - shapeSideLength) / 2;
-    // Randomly choose the shape: 0 for rectangle, 1 for circle
-    int shapeType = random(2);
-    if (shapeType == 0) {
-      drawRectangle(shapeX, shapeY);
-    } else {
+    if (shape == 0) {
       drawCircle(shapeX, shapeY);
+    } else {
+      drawRectangle(shapeX, shapeY);
     }
   } else { // Right side
     int shapeX = centerX + (centerX - shapeSideLength) / 2;
     int shapeY = (tft.height() - shapeSideLength) / 2;
-    // Randomly choose the shape: 0 for rectangle, 1 for circle
-    int shapeType = random(2);
-    if (shapeType == 0) {
-      drawRectangle(shapeX, shapeY);
-    } else {
+    if (shape == 0) {
       drawCircle(shapeX, shapeY);
+    } else {
+      drawRandomShape(shapeX, shapeY);
     }
   }
 }
@@ -87,45 +76,4 @@ void drawRectangle(int x, int y) {
 
 void drawCircle(int x, int y) {
   tft.fillCircle(x + shapeSideLength / 2, y + shapeSideLength / 2, shapeSideLength / 2, 0x001F);
-}
-
-
-displayText("Player 1 wins!", 0x07E0, 2);
-displayTextFlipped("Player 1 wins!", 0x07E0, 2);
-void displayTextFlipped(const char* text, uint16_t bgColor, uint8_t textSize) {
-  int textWidth = strlen(text) * 6 * textSize;  // Estimate width based on character count and size
-  int textHeight = 8 * textSize;  // Assuming a standard font height of 8 pixels
-  int screenWidth = tft.width();
-  int screenHeight = tft.height();
-
-  // Calculate the center coordinates
-  int x = (screenWidth - textWidth) / 2;
-  int y = (screenHeight - textHeight) / 2;
-
-  tft.setRotation(1); // Rotate 90 degrees clockwise (adjust the value as needed)
-
-  tft.fillRect(x, y, textWidth, textHeight, bgColor);
-  tft.setCursor(x, y);
-  tft.setTextColor(0x0000);  // Black color
-  tft.setTextSize(textSize);
-  tft.print(text);
-
-  tft.setRotation(0); // Restore the original rotation
-}
-
-void displayText(const char* text, uint16_t bgColor, uint8_t textSize) {
-  int textWidth = strlen(text) * 6 * textSize;  // Estimate width based on character count and size
-  int textHeight = 8 * textSize;  // Assuming a standard font height of 8 pixels
-  int screenWidth = tft.width();
-  int screenHeight = tft.height();
-
-  // Calculate the center coordinates
-  int x = (screenWidth - textWidth) / 2;
-  int y = (screenHeight - textHeight) / 2;
-
-  tft.fillRect(x, y, textWidth, textHeight, bgColor);
-  tft.setCursor(x, y);
-  tft.setTextColor(0x0000);  // Black color
-  tft.setTextSize(textSize);
-  tft.print(text);
 }
