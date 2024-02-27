@@ -2,4 +2,7 @@ cmake_minimum_required(VERSION 3.0.0)
 
 project(Shape_Shift)
 
+<<<<<<< HEAD
 add_executable(Shape_Shift Shape_Shift.ino)
+add_executable(Shape_Shift shape_shift.ino)
+>>>>>>> refs/remotes/origin/main
