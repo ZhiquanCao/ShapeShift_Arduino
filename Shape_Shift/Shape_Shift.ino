@@ -24,8 +24,7 @@ void setup() {
   uint16_t ID = tft.readID();
   tft.begin(ID);
   tft.setRotation(3);
-  // Green background color for the entire screen
-  tft.fillScreen(0x07E0);
+  tft.fillScreen(0x07E0);  // Green background color for the entire screen
 
   sei(); 
 }
@@ -43,9 +42,6 @@ void loop() {
     buttonPressed = false;
     delete game;
   }else{
-    displayTextFlipped("Wanna Play?");
-    // displayTextFlipped("Wanna Play?");
-    // displayTextFlipped("Player 1 wins!", 0x07E0, 2);
-    
+    displayTextFlipped("Wanna Play?"); 
   }
 }

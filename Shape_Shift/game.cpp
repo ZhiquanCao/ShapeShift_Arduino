@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "Game.h"
 #include "LCD.h"
-#define DEBOUNCE_TIME 30 // Debounce time in milliseconds
+#define DEBOUNCE_TIME 30
 
 Game::Game(int rounds) : rounds(rounds) {
   player1 = new Player();
@@ -18,7 +18,6 @@ Game::Player::Player() : score(0){};
 void Game::start_game(){
   Serial.print("STARTING GAME !!!");
   // // Disable pin change interrupt
-  // PCMSK2 &= ~((1 << PCINT18) | (1 << PCINT19) | (1 << PCINT20) | (1 << PCINT21));
   PCMSK0 &= ~ ((1 << PCINT0) | (1 << PCINT1) | (1 << PCINT2) | (1 << PCINT3));
 
   while (rounds > 0){
@@ -26,7 +25,6 @@ void Game::start_game(){
   }
   display_result();
   // Re-enable pin change interrupt
-  // PCMSK2 |= (1 << PCINT18) | (1 << PCINT19) | (1 << PCINT20) | (1 << PCINT21);
   PCMSK0 |= (1 << PCINT0) | (1 << PCINT1) | (1 << PCINT2) | (1 << PCINT3);
 }
 
@@ -44,14 +42,6 @@ void Game::each_round(){
   bool buttonState2 = false, buttonState3 = false, buttonState4 = false, buttonState5 = false;
   bool left_0_right_1 = random(2);
   bool sphere_0_square_1 = random(2);
-  // char* left_or_right = left_0_right_1 ? "right" : "left";
-
-  // if (left_0_right_1){
-  //   displayTextFlipped("right");
-  // } 
-  // else {
-  //   displayTextFlipped("left");
-  // }
 
   display(left_0_right_1, sphere_0_square_1);
   unsigned long start_time = millis();
@@ -69,7 +59,6 @@ void Game::each_round(){
     displayTextFlipped("Too Early!");
     return;
   }
-  // displayTextFlipped("result!");
 
   if (buttonState2) {
     // if this left button for player1 is pressed first
@@ -92,11 +81,9 @@ void Game::each_round(){
   }else if (buttonState4) {
     // if this left button for player2 is pressed first
     if(!sphere_0_square_1){
-      // Serial.println("Player2 is quicker!");
       displayText("Nice!");
       player2->score++;
     }else{
-      // Serial.println("Player2 is wrong!");
       displayText("Wrong side!");
       player2->score--;
     }
@@ -110,12 +97,8 @@ void Game::each_round(){
       player2->score--;
     }
   }
-  delay(1000);
-  // Serial.println("Going to next game, Bye~");
-  
   rounds --;
-  // Small delay to avoid flooding the serial output
-  delay(2000);
+  delay(1000);
 }
 
 void Game::display_result(){
@@ -124,6 +107,7 @@ void Game::display_result(){
   }else{
     displayText("You WIN!!!");
   }
+  delay(2000);
 }
 
 // checkButtons is implemented with debouncing
