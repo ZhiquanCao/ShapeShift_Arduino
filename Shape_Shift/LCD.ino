@@ -16,43 +16,41 @@
 
 // TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
-
 // const int shapeSideLength = 120; // Side length for the rectangle
 // int iterationCounter = 0;
 // void displayTextFlipped();
 // void displayText();
 
-// void setup() {
-//   Serial.begin(115200);
-//   tft.reset();
-//   tft.begin(0x9486);
-//   tft.setRotation(3);
+// // void setup() {
+// //   // Serial.begin(115200);
+// //   tft.reset();
+// //   tft.begin(0x9486);
+// //   tft.setRotation(3);
 
-//   // Green background color for the entire screen
-//   tft.fillScreen(0x07E0);
-// }
+// //   // Green background color for the entire screen
+// //   tft.fillScreen(0x07E0);
+// // }
 
-// void loop() {
-//   if (iterationCounter == 0) {
-//     // Randomly choose the side: 0 for left, 1 for right
-//     int side = random(2);
-//     drawRandomShape(side);
-//     iterationCounter++;
-//   } else {
-//     // Display the next 4 iterations after the user inputs 'x'
-//     if (Serial.available() > 0) {
-//       string input = Serial.readStringUntil("\n");
-//     }
-//   }
+// // void loop() {
+// //   if (iterationCounter == 0) {
+// //     // Randomly choose the side: 0 for left, 1 for right
+// //     int side = random(2);
+// //     drawRandomShape(side);
+// //     iterationCounter++;
+// //   } else {
+// //     // Display the next 4 iterations after the user inputs 'x'
+// //     if (Serial.available() > 0) {
+// //       string input = Serial.readStringUntil("\n");
+// //     }
+// //   }
 //   uint16_t originalColor = 0x001F; // Example original color (pure blue)
 //   uint16_t blueComponent = originalColor & 0x001F; // Masking to extract blue component
 // // Example: Increase brightness by shifting blue bits to the left
 //   uint16_t adjustedBlue = blueComponent >> 1;
-//   displayText("Player 1 wins!", adjustedBlue, 2);
-//   displayTextFlipped("Player 1 wins!", 0x07E0, 2);
-// }
+  
+// // }
 
-// void drawRandomShape(bool side, bool shape) {
+// void display(bool side, bool shape) {
 //   int16_t centerX = tft.width() / 2;
 //   int16_t centerY = tft.height() / 2;
 
@@ -73,7 +71,7 @@
 //     if (shape == 0) {
 //       drawCircle(shapeX, shapeY);
 //     } else {
-//       drawRandomShape(shapeX, shapeY);
+//       drawRectangle(shapeX, shapeY);
 //     }
 //   }
 // }
@@ -85,9 +83,6 @@
 // void drawCircle(int x, int y) {
 //   tft.fillCircle(x + shapeSideLength / 2, y + shapeSideLength / 2, shapeSideLength / 2, 0x001F);
 // }
-
-// //shallow blue 
-
 
 
 

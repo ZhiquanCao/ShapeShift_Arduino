@@ -122,10 +122,7 @@ void Game::checkButtons(bool &buttonState2, bool &buttonState3, bool &buttonStat
   static bool lastButtonState3 = true;
   static bool lastButtonState4 = true;
   static bool lastButtonState5 = true;
-  // bool currentButtonState2 = PIND & (1 << PIND2);
-  // bool currentButtonState3 = PIND & (1 << PIND3);
-  // bool currentButtonState4 = PIND & (1 << PIND4);
-  // bool currentButtonState5 = PIND & (1 << PIND5);
+
   bool currentButtonState2 = PINB & (1 << PINB0); // For Pin 53
   bool currentButtonState3 = PINB & (1 << PINB1); // For Pin 52
   bool currentButtonState4 = PINB & (1 << PINB2); // For Pin 51
