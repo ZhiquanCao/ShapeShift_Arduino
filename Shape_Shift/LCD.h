@@ -20,9 +20,11 @@ extern TouchScreen ts;
 
 extern const int shapeSideLength;
 extern int iterationCounter;
+// int lastX, lastY;
+// int lastWidth, lastHeight;
 
-void displayTextFlipped(const char* text, uint16_t bgColor, uint8_t textSize);
-void displayText(const char* text, uint16_t bgColor, uint8_t textSize);
+void displayTextFlipped(char* text, uint16_t bgColor = 0x0000, uint8_t textSize = 5);
+void displayText(char* text, uint16_t bgColor = 0x0000, uint8_t textSize = 5);
 void display(bool side, bool shape);
 void drawRectangle(int x, int y);
 void drawCircle(int x, int y);

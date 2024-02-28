@@ -43,7 +43,8 @@ void loop() {
     buttonPressed = false;
     delete game;
   }else{
-    // displayText("Player 1 wins!", adjustedBlue, 2);
+    displayText("Wanna Play?");
     // displayTextFlipped("Player 1 wins!", 0x07E0, 2);
+    
   }
 }
