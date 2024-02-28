@@ -32,18 +32,13 @@ void Game::start_game(){
 
 void Game::each_round(){
   delay(1000);
-  displayTextFlipped("Let's start the game in Three, Two, One!", 0x07E0, 2);
-  // displayText("Player 1 wins!");
-  // Serial.println("Let's start the game in Three, Two, One!");
-  delay(2000);
-  // Serial.println("Three!");
-  displayTextFlipped("Three!", 0x07E0, 2);
+  displayTextFlipped("Three!");
   delay(1000);
   // Serial.println("Two!");
-  displayTextFlipped("Two!", 0x07E0, 2);
+  displayTextFlipped("Two!");
   delay(1000);
   // Serial.println("One!");
-  displayTextFlipped("One!", 0x07E0, 2);
+  displayTextFlipped("One!");
 
   // Player1 uses pin2 (left) and pin3 (right), player2 uses pin4(left) and pin5(right)
   bool buttonState2 = false, buttonState3 = false, buttonState4 = false, buttonState5 = false;
@@ -51,12 +46,12 @@ void Game::each_round(){
   bool sphere_0_square_1 = random(2);
   // char* left_or_right = left_0_right_1 ? "right" : "left";
 
-  if (left_0_right_1){
-    displayTextFlipped("right", 0x07E0, 2);
-  } 
-  else {
-    displayTextFlipped("left", 0x07E0, 2);
-  }
+  // if (left_0_right_1){
+  //   displayTextFlipped("right");
+  // } 
+  // else {
+  //   displayTextFlipped("left");
+  // }
 
   display(left_0_right_1, sphere_0_square_1);
   unsigned long start_time = millis();
@@ -64,55 +59,54 @@ void Game::each_round(){
     checkButtons(buttonState2, buttonState3, buttonState4, buttonState5); // Non-blocking check of both buttons
 
     if (millis() - start_time > 5000) {
-      Serial.println("What are you waiting for??");
+      displayTextFlipped("??");
       return;
     }
   }
   
   if (buttonState2 + buttonState3 + buttonState4 + buttonState5 > 1) {
-    Serial.println("Please don't press buttons before count down!");
+    // Serial.println("Please don't press buttons before count down!");
+    displayTextFlipped("Too Early!");
     return;
   }
-  // displayTextFlipped("result!", 0x07E0, 2);
+  // displayTextFlipped("result!");
 
   if (buttonState2) {
     // if this left button for player1 is pressed first
     if(!sphere_0_square_1){
-      displayTextFlipped("Player 1 is quicker!", 0x07E0, 2);
-      Serial.println("Player1 is quicker!");
+      displayTextFlipped("Nice!");
       player1->score++;
     }else{
-      displayTextFlipped("Player 1 is wrong!", 0x07E0, 2);
-      // Serial.println("Player1 is wrong!");
+      displayTextFlipped("Wrong side!");
       player1->score--;
     }
   }else if (buttonState3){
     // if this right button for player1 is pressed first
     if(sphere_0_square_1){
-      displayTextFlipped("Player 1 is quicker!", 0x07E0, 2);
+      displayTextFlipped("Nice!");
       player1->score++;
     }else{
-      displayTextFlipped("Player 1 is wrong!", 0x07E0, 2);
+      displayTextFlipped("Wrong side!");
       player1->score--;
     }
   }else if (buttonState4) {
     // if this left button for player2 is pressed first
     if(!sphere_0_square_1){
       // Serial.println("Player2 is quicker!");
-      displayText("Player 2 is quicker!", 0x07E0, 2);
+      displayText("Nice!");
       player2->score++;
     }else{
       // Serial.println("Player2 is wrong!");
-      displayText("Player 2 is wrong!", 0x07E0, 2);
+      displayText("Wrong side!");
       player2->score--;
     }
   }else if (buttonState5){
     // if this right button for player2 is pressed first
     if(sphere_0_square_1){
-      displayText("Player 2 is quicker!", 0x07E0, 2);
+      displayText("Nice!");
       player2->score++;
     }else{
-      displayText("Player 2 is wrong!", 0x07E0, 2);
+      displayText("Wrong side!");
       player2->score--;
     }
   }
@@ -126,9 +120,9 @@ void Game::each_round(){
 
 void Game::display_result(){
   if (player1->score > player2->score){
-    Serial.println("Player1 Wins!!!");
+    displayTextFlipped("You WIN!!!");
   }else{
-    Serial.println("Player2 Wins!!!");
+    displayText("You WIN!!!");
   }
 }
 

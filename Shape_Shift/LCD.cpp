@@ -54,6 +54,7 @@ void drawCircle(int x, int y)
 
 void displayTextFlipped(char *text, uint16_t bgColor, uint8_t textSize)
 {
+    tft.fillScreen(0x07E0); // Clears the screen to green
     int textWidth = strlen(text) * 6 * textSize; // Estimate width based on character count and size
     int textHeight = 8 * textSize;               // Assuming a standard font height of 8 pixels
     int screenWidth = tft.width();
@@ -65,7 +66,6 @@ void displayTextFlipped(char *text, uint16_t bgColor, uint8_t textSize)
 
     tft.setRotation(1); // Rotate 90 degrees clockwise (adjust the value as needed)
 
-    tft.fillRect(x, y, textWidth, textHeight, bgColor);
     tft.setCursor(x, y);
     tft.setTextColor(0x0000); // Black color
     tft.setTextSize(textSize);
@@ -76,6 +76,7 @@ void displayTextFlipped(char *text, uint16_t bgColor, uint8_t textSize)
 
 void displayText(char *text, uint16_t bgColor, uint8_t textSize)
 {
+    tft.fillScreen(0x07E0); // Clears the screen to green
     int textWidth = strlen(text) * 6 * textSize; // Estimate width based on character count and size
     int textHeight = 8 * textSize;               // Assuming a standard font height of 8 pixels
     int screenWidth = tft.width();
@@ -90,9 +91,9 @@ void displayText(char *text, uint16_t bgColor, uint8_t textSize)
     int x = (screenWidth - textWidth) / 2;
     int y = (screenHeight - textHeight) / 2;
 
-    tft.setRotation(1); // Rotate 90 degrees clockwise (adjust the value as needed)
+    tft.setRotation(-1); // Rotate 90 degrees clockwise (adjust the value as needed)
 
-    tft.fillRect(x, y, textWidth, textHeight, bgColor);
+    // tft.fillRect(x, y, textWidth, textHeight, bgColor);
     tft.setCursor(x, y);
     tft.setTextColor(0x0000); // Black color
     tft.setTextSize(textSize);
