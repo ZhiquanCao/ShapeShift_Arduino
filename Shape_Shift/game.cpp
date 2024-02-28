@@ -1,5 +1,6 @@
-#include "Game.h"
 #include "Arduino.h"
+#include "Game.h"
+#include "LCD.h"
 #define DEBOUNCE_TIME 30 // Debounce time in milliseconds
 
 Game::Game(int rounds) : rounds(rounds) {
@@ -44,6 +45,7 @@ void Game::each_round(){
   bool left_0_right_1 = random(2);
   bool sphere_0_square_1 = random(2);
 
+  display(left_0_right_1, sphere_0_square_1);
   unsigned long start_time = millis();
   while (!(buttonState2 || buttonState3 || buttonState4 || buttonState5)) {
     checkButtons(buttonState2, buttonState3, buttonState4, buttonState5); // Non-blocking check of both buttons
