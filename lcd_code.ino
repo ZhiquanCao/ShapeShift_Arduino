@@ -23,8 +23,8 @@ void displayTextFlipped();
 void displayText();
 
 void setup() {
-  Serial.begin(9600);
-
+  Serial_pc.begin(9600);
+  Serial.begin(115200);
   tft.reset();
   tft.begin(0x9486);
   tft.setRotation(3);
@@ -42,6 +42,7 @@ void loop() {
   } else {
     // Display the next 4 iterations after the user inputs 'x'
     if (Serial.available() > 0) {
+<<<<<<< HEAD
       char input = Serial.read();
       if (input == 'x' || input == 'X') {
         if (iterationCounter < 5) {
@@ -51,6 +52,10 @@ void loop() {
           iterationCounter++;
         }
       }
+=======
+      string input = Serial.readStringUntil("\n");
+      Serial_pc.println(input);
+>>>>>>> 8abfa1b0fce9ac85c9ca6fd22d9cf6533110caa1
     }
   }
   uint16_t originalColor = 0x001F; // Example original color (pure blue)
@@ -61,9 +66,13 @@ void loop() {
   displayTextFlipped("Player 1 wins!", 0x07E0, 2);
 }
 
+<<<<<<< HEAD
 
 // Functions definitions 
 void drawRandomShape(int side) {
+=======
+void drawRandomShape(bool side, bool shape) {
+>>>>>>> 8abfa1b0fce9ac85c9ca6fd22d9cf6533110caa1
   int16_t centerX = tft.width() / 2;
   int16_t centerY = tft.height() / 2;
 
@@ -73,22 +82,18 @@ void drawRandomShape(int side) {
   if (side == 0) { // Left side
     int shapeX = (centerX - shapeSideLength) / 2;
     int shapeY = (tft.height() - shapeSideLength) / 2;
-    // Randomly choose the shape: 0 for rectangle, 1 for circle
-    int shapeType = random(2);
-    if (shapeType == 0) {
-      drawRectangle(shapeX, shapeY);
-    } else {
+    if (shape == 0) {
       drawCircle(shapeX, shapeY);
+    } else {
+      drawRectangle(shapeX, shapeY);
     }
   } else { // Right side
     int shapeX = centerX + (centerX - shapeSideLength) / 2;
     int shapeY = (tft.height() - shapeSideLength) / 2;
-    // Randomly choose the shape: 0 for rectangle, 1 for circle
-    int shapeType = random(2);
-    if (shapeType == 0) {
-      drawRectangle(shapeX, shapeY);
-    } else {
+    if (shape == 0) {
       drawCircle(shapeX, shapeY);
+    } else {
+      drawRandomShape(shapeX, shapeY);
     }
   }
 }
@@ -100,6 +105,7 @@ void drawRectangle(int x, int y) {
 void drawCircle(int x, int y) {
   tft.fillCircle(x + shapeSideLength / 2, y + shapeSideLength / 2, shapeSideLength / 2, 0x001F);
 }
+<<<<<<< HEAD
 
 //shallow blue 
 
@@ -151,3 +157,5 @@ void displayText(const char* text, uint16_t bgColor, uint8_t textSize) {
 }
 
 
+=======
+>>>>>>> 8abfa1b0fce9ac85c9ca6fd22d9cf6533110caa1
