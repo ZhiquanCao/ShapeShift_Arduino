@@ -6,7 +6,6 @@ volatile bool buttonPressed = false;
 void setup() {
   // Initialize Serial
   Serial.begin(9600);
-  Serial_Mega.begin(115200);
   // Disable interrupts to ensure atomic access for register manipulation
   cli();
 
