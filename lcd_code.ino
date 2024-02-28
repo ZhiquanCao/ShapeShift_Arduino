@@ -1,6 +1,7 @@
 #include <MCUFRIEND_kbv.h>
 #include <TouchScreen.h>
 
+
 #define LCD_CS A3
 #define LCD_RS A2
 #define LCD_WR A1
@@ -15,8 +16,11 @@ MCUFRIEND_kbv tft;
 
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
+
 const int shapeSideLength = 120; // Side length for the rectangle
 int iterationCounter = 0;
+void displayTextFlipped();
+void displayText();
 
 void setup() {
   Serial.begin(9600);
@@ -32,7 +36,7 @@ void setup() {
 void loop() {
   if (iterationCounter == 0) {
     // Randomly choose the side: 0 for left, 1 for right
-    //int side = random(2);
+    int side = random(2);
     drawRandomShape(side);
     iterationCounter++;
   } else {
@@ -42,15 +46,23 @@ void loop() {
       if (input == 'x' || input == 'X') {
         if (iterationCounter < 5) {
           // Randomly choose the side: 0 for left, 1 for right
-          //int side = random(2);
+          int side = random(2);
           drawRandomShape(side);
           iterationCounter++;
         }
       }
     }
   }
+  uint16_t originalColor = 0x001F; // Example original color (pure blue)
+  uint16_t blueComponent = originalColor & 0x001F; // Masking to extract blue component
+// Example: Increase brightness by shifting blue bits to the left
+  uint16_t adjustedBlue = blueComponent >> 1;
+  displayText("Player 1 wins!", adjustedBlue, 2);
+  displayTextFlipped("Player 1 wins!", 0x07E0, 2);
 }
 
+
+// Functions definitions 
 void drawRandomShape(int side) {
   int16_t centerX = tft.width() / 2;
   int16_t centerY = tft.height() / 2;
@@ -89,9 +101,15 @@ void drawCircle(int x, int y) {
   tft.fillCircle(x + shapeSideLength / 2, y + shapeSideLength / 2, shapeSideLength / 2, 0x001F);
 }
 
+//shallow blue 
 
-displayText("Player 1 wins!", 0x07E0, 2);
-displayTextFlipped("Player 1 wins!", 0x07E0, 2);
+
+
+
+
+/* 
+FUNCTION DEFN
+*/
 void displayTextFlipped(const char* text, uint16_t bgColor, uint8_t textSize) {
   int textWidth = strlen(text) * 6 * textSize;  // Estimate width based on character count and size
   int textHeight = 8 * textSize;  // Assuming a standard font height of 8 pixels
@@ -113,6 +131,8 @@ void displayTextFlipped(const char* text, uint16_t bgColor, uint8_t textSize) {
   tft.setRotation(0); // Restore the original rotation
 }
 
+
+// function 
 void displayText(const char* text, uint16_t bgColor, uint8_t textSize) {
   int textWidth = strlen(text) * 6 * textSize;  // Estimate width based on character count and size
   int textHeight = 8 * textSize;  // Assuming a standard font height of 8 pixels
@@ -129,3 +149,5 @@ void displayText(const char* text, uint16_t bgColor, uint8_t textSize) {
   tft.setTextSize(textSize);
   tft.print(text);
 }
+
+
